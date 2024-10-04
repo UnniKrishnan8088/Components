@@ -5,6 +5,8 @@ import { theme } from "./theme/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import DashboardLayout from "./components/DashboardLayout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -14,8 +16,8 @@ function App() {
       path: "/",
       element: <DashboardLayout />,
       children: [
-        { path: "/home", element: <Box>Home</Box> },
-        { path: "/dashboard", element: <Box>Dashboard</Box> },
+        { path: "/home", element: <Home /> },
+        { path: "/dashboard", element: <Dashboard /> },
         { path: "/about", element: <Box>About</Box> },
         { path: "/users", element: <Box>Users</Box> },
         { path: "/profile", element: <Box>Profile</Box> },

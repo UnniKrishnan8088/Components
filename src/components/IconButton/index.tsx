@@ -24,9 +24,12 @@ type IconButtonProps = MuiIconButtonProps &
   };
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ isLoading, children, disabled, title, placement, ...props }, ref) => {
+  (
+    { isLoading, children, disabled, title, placement, arrow, ...props },
+    ref
+  ) => {
     return (
-      <Tooltip title={title} placement={placement}>
+      <Tooltip title={title} placement={placement} arrow={arrow}>
         <MuiIconButton ref={ref} {...props} disabled={isLoading || disabled}>
           {isLoading ? <CircularProgress size={20} /> : children}
         </MuiIconButton>
