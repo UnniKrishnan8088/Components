@@ -1,5 +1,8 @@
 /**
  * @author Unni Krishnan
+ * DashboardLayout component is the main layout structure for the application.
+ * It includes a responsive AppBar and a Sidebar Drawer that adapts to different
+ * screen sizes, making it optimized for both mobile and desktop views.
  *
  */
 import * as React from "react";
@@ -8,11 +11,9 @@ import DrawerAppBar from "./components/DrawerAppBar";
 import SidebarMenuDrawer from "./components/SidebarMenuDrawer";
 import MainContentArea from "./components/MainContentArea";
 
-type DashboardLayoutProps = {
-  children: React.ReactNode;
-};
+type DashboardLayoutProps = {};
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function DashboardLayout({}: DashboardLayoutProps) {
   const [open, setOpen] = React.useState(true);
   const [screenWidth, setScreenWidth] = React.useState<number>(
     window.innerWidth
@@ -20,10 +21,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const isMobileView = screenWidth >= 600;
 
+  // Function to open the drawer
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
+  // Function to update the screen width state on window resize
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
   };
@@ -51,7 +54,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           open={open}
         />
       )}
-      <MainContentArea>{children}</MainContentArea>
+      {/* Main content area */}
+      <MainContentArea />
     </Box>
   );
 }

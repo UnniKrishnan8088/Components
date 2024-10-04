@@ -1,3 +1,13 @@
+/**
+ * @author Unni Krishnan
+ *
+ * AppMenuItem component represents an individual item in the sidebar menu.
+ * It handles the display of menu items, including the ability to toggle submenus
+ * and navigate to different routes. The component also highlights active items based
+ * on the current route.
+ *
+ */
+
 import React from "react";
 import { MenuItem } from "../..";
 import {
@@ -16,7 +26,7 @@ import AppSubmenu from "../AppSubmenu";
 
 type AppMenuItemProps = {
   item: MenuItem;
-  openMenuIds: number[];
+  openMenuIds: number[]; // Array of IDs for currently open submenus
   handleToggle: (id: number) => void;
   activeParentId: number | null; // Add activeParentId prop
   setActiveParentId: (id: number) => void; // Add setActiveParentId prop
@@ -68,12 +78,16 @@ export default function AppMenuItem({
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  // Click handler for the menu icon
   const handleClickMenuIcon = (event: React.MouseEvent<HTMLElement>) => {
     if (isDrawerOpen) {
       return;
     }
     setAnchorEl(event.currentTarget);
   };
+
+  // Close the submenu
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -159,6 +173,7 @@ export default function AppMenuItem({
           )}
         </ListItemButton>
       </ListItem>
+      {/* Render the submenus */}
       {isDrawerOpen && hasSubmenu && (
         <Collapse in={openMenuIds.includes(item.id)}>
           <List disablePadding>

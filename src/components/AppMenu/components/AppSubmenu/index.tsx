@@ -1,3 +1,14 @@
+/**
+ * @author Unni Krishnan
+ *
+ * AppSubmenu component represents a submenu that opens when
+ * a parent menu item is clicked. It displays submenu items and
+ * allows navigation to different paths.
+ *
+ * @param {AppSubmenuProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered submenu with navigation options.
+ */
+
 import {
   List,
   ListItem,
@@ -49,7 +60,10 @@ export default function AppSubmenu({
               onClick={() => navigate(submenu?.path ?? "")}
               sx={{
                 padding: "0 1rem",
-                color: location?.pathname === submenu?.path ? "red" : "black",
+                color:
+                  location?.pathname === submenu?.path
+                    ? "primary.main"
+                    : "black",
               }}
             >
               <ListItemText>{submenu.title}</ListItemText>

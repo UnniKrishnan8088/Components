@@ -1,13 +1,19 @@
+/**
+ * @author Unni Krishnan
+ *
+ * MainContentArea component serves as the main content area of the application.
+ * It renders the outlet for nested routes and a header for the drawer.
+ *
+ * @returns {JSX.Element} The rendered main content area with nested routes.
+ */
+
 import { Box } from "@mui/material";
-import React from "react";
 import { Outlet } from "react-router-dom";
 import { DrawerHeader } from "../../styles";
 
-type MainContentAreaProps = {
-  children?: React.ReactNode;
-};
+type MainContentAreaProps = {};
 
-export default function MainContentArea({ children }: MainContentAreaProps) {
+export default function MainContentArea({}: MainContentAreaProps) {
   return (
     <Box
       component="main"
@@ -19,7 +25,6 @@ export default function MainContentArea({ children }: MainContentAreaProps) {
       }}
     >
       <DrawerHeader />
-      {children}
       <Outlet />
     </Box>
   );

@@ -1,3 +1,15 @@
+/**
+ * @author Unni Krishnan
+ *
+ * AppMenu component displays a list of navigation menu items for the sidebar.
+ * Each menu item can have submenus and icons associated with them.
+ * This component handles the open/close state of submenus and maintains the active state of parent items.
+ *
+ * @param {AppMenuProps} props - The props for the component.
+ * @param {boolean} props.isDrawerOpen - Indicates whether the sidebar drawer is open.
+ * @returns {JSX.Element} The rendered list of menu items with submenus.
+ */
+
 import React from "react";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -52,19 +64,8 @@ const ListItems: MenuItem[] = [
     id: 2,
     title: "Dashboard",
     parent: true,
+    path: "/dashboard",
     icon: <DashboardIcon fontSize="small" />,
-    submenu: [
-      {
-        id: 2001,
-        title: "Sub Home ",
-        path: "/dashboard",
-      },
-      {
-        id: 2002,
-        title: "Sub Home 2",
-        path: "/dashboard/sub2",
-      },
-    ],
   },
   {
     id: 3,

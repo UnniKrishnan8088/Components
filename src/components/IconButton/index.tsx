@@ -1,3 +1,14 @@
+/**
+ * @author Unni Krishnan
+ *
+ * IconButton component wraps Material-UI IconButton with additional loading functionality.
+ * It displays a loading spinner when the `isLoading` prop is true.
+ *
+ * @param {IconButtonProps} props - The props for the IconButton component.
+ * @param {React.Ref<HTMLButtonElement>} ref - Ref to forward to the underlying button element.
+ * @returns {JSX.Element} The rendered icon button element wrapped in a tooltip.
+ */
+
 import { forwardRef } from "react";
 import {
   IconButton as MuiIconButton,
