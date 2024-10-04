@@ -51,6 +51,7 @@ if (theme.components) {
         ":hover": {
           background: theme.palette.primary.main,
         },
+
         // [theme.breakpoints.up("xs")]: {
         //   background: "#ff0400",
         //   "&:hover": {
@@ -75,6 +76,16 @@ if (theme.components) {
         //     color: "#0000000",
         //   },
         // },
+      },
+      outlined: {
+        ":hover": {
+          color: "#fff",
+        },
+      },
+      text: {
+        ":hover": {
+          color: "#fff",
+        },
       },
     },
   };
