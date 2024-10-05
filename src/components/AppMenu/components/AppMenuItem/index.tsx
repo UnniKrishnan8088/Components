@@ -62,8 +62,6 @@ export default function AppMenuItem({
 
   // Function to check if the current item or any submenu is active
   const isActive = (menuItem: MenuItem): boolean => {
-    console.log(`Menu ${menuItem?.id}`, menuItem);
-
     if (location.pathname === menuItem.path) {
       return true; // Active item
     }

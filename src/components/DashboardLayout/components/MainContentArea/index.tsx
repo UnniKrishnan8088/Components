@@ -10,6 +10,7 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { DrawerHeader } from "../../styles";
+import Breadcrumbs from "../../../Breadcrumbs";
 
 type MainContentAreaProps = {};
 
@@ -21,10 +22,11 @@ export default function MainContentArea({}: MainContentAreaProps) {
         flexGrow: 1,
         p: 2,
         background: (theme) => theme.palette.primary.light,
-        height: "100dvh",
+        miHeight: "100dvh",
       }}
     >
       <DrawerHeader />
+      <Breadcrumbs />
       <Outlet />
     </Box>
   );

@@ -27,7 +27,7 @@ export default function LogoutButton({ open }: LogoutButtonProps) {
           gap: 1,
         }}
       >
-        <LogoutIcon />
+        <LogoutIcon fontSize="small" />
         {open && "Logout"}
       </ListItemButton>
     </ListItem>

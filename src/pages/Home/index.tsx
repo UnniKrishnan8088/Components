@@ -4,10 +4,12 @@ import IconButton from "../../components/IconButton";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import HomeIcon from "@mui/icons-material/Home";
 import SendIcon from "@mui/icons-material/Send";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 export default function Home({}: Props) {
+  const navigate = useNavigate();
   return (
     <Box>
       <Stack direction={"row"} gap={1}>
@@ -20,7 +22,7 @@ export default function Home({}: Props) {
         <Button size="small" variant="text">
           Home
         </Button>
-        <Button size="small" variant="contained" isLoading>
+        <Button size="small" variant="contained" isloading={true}>
           Home
         </Button>
         <Button
@@ -36,6 +38,9 @@ export default function Home({}: Props) {
           endIcon={<SendIcon fontSize="small" />}
         >
           Send
+        </Button>
+        <Button variant="text" onClick={() => navigate("products")}>
+          Go to product page
         </Button>
       </Stack>
       <Stack direction={"row"} mt={5}>

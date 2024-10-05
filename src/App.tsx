@@ -7,6 +7,8 @@ import DashboardLayout from "./components/DashboardLayout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Dashboard/pages/Products";
+import ErrorBoundery from "./components/ErrorBoundery";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +19,11 @@ function App() {
       element: <DashboardLayout />,
       children: [
         { path: "/home", element: <Home /> },
+        { path: "/home/products", element: <Products /> },
+        { path: "/home/products/:id", element: <Box>Details</Box> },
         { path: "/dashboard", element: <Dashboard /> },
+        { path: "/dashboard/products", element: <Products /> },
+        { path: "/dashboard/products/:id", element: <Box>Details</Box> },
         { path: "/about", element: <Box>About</Box> },
         { path: "/users", element: <Box>Users</Box> },
         { path: "/profile", element: <Box>Profile</Box> },
@@ -75,11 +81,13 @@ function App() {
   ]);
   return (
     <React.Fragment>
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </ThemeProvider>
+      <ErrorBoundery fallback={"Loading...."}>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </ThemeProvider>
+      </ErrorBoundery>
     </React.Fragment>
   );
 }

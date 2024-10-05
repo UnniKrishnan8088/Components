@@ -55,7 +55,7 @@ export default function AppSubmenu({
         disablePadding
       >
         {item?.submenu?.map((submenu) => (
-          <ListItem sx={{ cursor: "pointer" }} disablePadding>
+          <ListItem key={submenu?.id} sx={{ cursor: "pointer" }} disablePadding>
             <ListItemButton
               onClick={() => navigate(submenu?.path ?? "")}
               sx={{

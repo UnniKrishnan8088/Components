@@ -50,13 +50,13 @@ const ListItems: MenuItem[] = [
     submenu: [
       {
         id: 1001,
-        title: "Sub Home ",
+        title: "Products",
         path: "/home",
       },
       {
         id: 1002,
         title: "Sub Home 2",
-        path: "/home/sub2",
+        path: "/home/",
       },
     ],
   },
