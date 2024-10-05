@@ -98,6 +98,7 @@ export default function AppMenuItem({
             parentActive && item?.parent ? `${theme.palette.primary.main}` : "",
           borderRadius: "4px",
           width: !isDrawerOpen ? "40px" : undefined,
+          transition: "background-color 0.6s ease",
         }}
         disablePadding
       >
