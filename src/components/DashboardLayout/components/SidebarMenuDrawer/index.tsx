@@ -14,6 +14,7 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppMenu from "../../../AppMenu";
 import LogoutButton from "../LogoutButton";
+import DevicesOtherIcon from "@mui/icons-material/DevicesOther";
 
 type SidebarMenuDrawerProps = {
   open: boolean;
@@ -33,14 +34,29 @@ export default function SidebarMenuDrawer({
           justifyContent={"flex-end"}
           alignItems={"center"}
         >
-          <Stack width={"100%"}>
+          <Stack
+            width={"100%"}
+            direction={"row"}
+            alignItems={"center"}
+            gap={"4px"}
+            sx={(theme) => ({
+              opacity: open ? 1 : 0,
+              transition: theme.transitions.create("opacity", {
+                duration: theme.transitions.duration.standard,
+                easing: theme.transitions.easing.easeInOut, // You can change the easing if needed
+              }),
+            })}
+          >
+            <DevicesOtherIcon />
             <Typography
               variant="h6"
-              sx={{
+              sx={(theme) => ({
                 fontWeight: "bold",
-                opacity: open ? 1 : 0,
-                transition: "opacity 0.3s ease",
-              }}
+                transition: theme.transitions.create("opacity", {
+                  duration: theme.transitions.duration.standard,
+                  easing: theme.transitions.easing.easeInOut,
+                }),
+              })}
             >
               Dashboard
             </Typography>
