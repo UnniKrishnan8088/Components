@@ -31,36 +31,38 @@ export default function SidebarMenuDrawer({
         <Stack
           direction={"row"}
           width={"100%"}
-          justifyContent={"flex-end"}
+          justifyContent={open ? "flex-end" : "center"}
           alignItems={"center"}
         >
-          <Stack
-            width={"100%"}
-            direction={"row"}
-            alignItems={"center"}
-            gap={"4px"}
-            sx={(theme) => ({
-              opacity: open ? 1 : 0,
-              transition: theme.transitions.create("opacity", {
-                duration: theme.transitions.duration.standard,
-                easing: theme.transitions.easing.easeInOut, // You can change the easing if needed
-              }),
-            })}
-          >
-            <DevicesOtherIcon />
-            <Typography
-              variant="h6"
+          {open && (
+            <Stack
+              width={"100%"}
+              direction={"row"}
+              alignItems={"center"}
+              gap={"4px"}
               sx={(theme) => ({
-                fontWeight: "bold",
+                opacity: open ? 1 : 0,
                 transition: theme.transitions.create("opacity", {
                   duration: theme.transitions.duration.standard,
-                  easing: theme.transitions.easing.easeInOut,
+                  easing: theme.transitions.easing.easeInOut, // You can change the easing if needed
                 }),
               })}
             >
-              Dashboard
-            </Typography>
-          </Stack>
+              <DevicesOtherIcon />
+              <Typography
+                variant="h6"
+                sx={(theme) => ({
+                  fontWeight: "bold",
+                  transition: theme.transitions.create("opacity", {
+                    duration: theme.transitions.duration.standard,
+                    easing: theme.transitions.easing.easeInOut,
+                  }),
+                })}
+              >
+                Dashboard
+              </Typography>
+            </Stack>
+          )}
           <IconButton onClick={handleDrawerClose}>
             {open ? <MenuIcon color="error" /> : <MenuOpenIcon color="error" />}
           </IconButton>

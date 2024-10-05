@@ -239,6 +239,7 @@ export default function AppMenu({ isDrawerOpen }: AppMenuProps) {
           padding: 1,
           display: "flex",
           justifyContent: "center",
+          alignItems: !isDrawerOpen ? "center" : undefined,
           flexDirection: "column",
           gap: "4px",
         }}

@@ -97,12 +97,12 @@ export default function AppMenuItem({
           background: (theme) =>
             parentActive && item?.parent ? `${theme.palette.primary.main}` : "",
           borderRadius: "4px",
+          width: !isDrawerOpen ? "40px" : undefined,
         }}
         disablePadding
       >
         <ListItemButton
           sx={{
-            width: "fit-content",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
