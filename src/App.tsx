@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Dashboard/pages/Products";
 import ErrorBoundery from "./components/ErrorBoundery";
+import AnimatedPage from "./GSAP/pages/AnimatedPage";
 
 const queryClient = new QueryClient();
 
@@ -84,7 +85,8 @@ function App() {
       <ErrorBoundery fallback={"Loading...."}>
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            {/* <RouterProvider router={router} /> */}
+            <AnimatedPage />
           </QueryClientProvider>
         </ThemeProvider>
       </ErrorBoundery>
