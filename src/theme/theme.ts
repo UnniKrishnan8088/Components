@@ -3,14 +3,15 @@ import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
     xs: true; // removes the `xs` breakpoint
-    sm: false;
-    md: false;
-    lg: false;
-    xl: false;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
     mobile: true; // adds the `mobile` breakpoint
     tablet: true;
     laptop: true;
     desktop: true;
+    xxl: true;
   }
 }
 
@@ -18,15 +19,20 @@ const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      mobile: 320,
-      tablet: 640,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+      mobile: 390,
+      tablet: 768,
       laptop: 1024,
-      desktop: 1200,
+      desktop: 1440,
+      xxl: 1920,
     },
   },
   palette: {
     primary: {
-      main: "#2D60FF",
+      main: "#FF6868",
       light: "#E6EFF5",
       dark: "#002884",
       contrastText: "#fff",
@@ -48,34 +54,26 @@ if (theme.components) {
   theme.components.MuiButton = {
     styleOverrides: {
       root: {
+        boxShadow: "none",
         ":hover": {
+          boxShadow: "none",
           background: theme.palette.primary.main,
         },
-
-        // [theme.breakpoints.up("xs")]: {
-        //   background: "#ff0400",
-        //   "&:hover": {
-        //     color: "#ff0400",
-        //   },
-        // },
-        // [theme.breakpoints.up("mobile")]: {
-        //   background: "#ffc300",
-        //   "&:hover": {
-        //     color: "#ffc300",
-        //   },
-        // },
-        // [theme.breakpoints.up("tablet")]: {
-        //   background: "#ff0400",
-        //   "&:hover": {
-        //     color: "#ff0400",
-        //   },
-        // },
-        // [theme.breakpoints.up("desktop")]: {
-        //   background: "#000000",
-        //   "&:hover": {
-        //     color: "#0000000",
-        //   },
-        // },
+        [theme.breakpoints.down("xxl")]: {
+          padding: "0.625",
+        },
+        [theme.breakpoints.down("desktop")]: {
+          padding: "0.83vw",
+        },
+        [theme.breakpoints.down("laptop")]: {
+          padding: "1.17vw",
+        },
+        [theme.breakpoints.down("tablet")]: {
+          padding: "1.17vw",
+        },
+        [theme.breakpoints.down("mobile")]: {
+          padding: "3.07vw",
+        },
       },
       outlined: {
         ":hover": {
