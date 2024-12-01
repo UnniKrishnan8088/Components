@@ -85,8 +85,8 @@ function App() {
       <ErrorBoundery fallback={"Loading...."}>
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
-            {/* <RouterProvider router={router} /> */}
-            <AnimatedPage />
+            <RouterProvider router={router} />
+            {/* <AnimatedPage /> */}
           </QueryClientProvider>
         </ThemeProvider>
       </ErrorBoundery>
