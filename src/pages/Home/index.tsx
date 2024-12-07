@@ -5,6 +5,8 @@ import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import HomeIcon from "@mui/icons-material/Home";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
+import DynamicForm from "../../components/DynamicForm";
+import { formInputs } from "../../components/DynamicForm/formInputs";
 
 type Props = {};
 
@@ -12,7 +14,7 @@ export default function Home({}: Props) {
   const navigate = useNavigate();
   return (
     <Box>
-      <Stack direction={"row"} gap={1}>
+      {/* <Stack direction={"row"} gap={1}>
         <Button size="small" variant="contained">
           Home
         </Button>
@@ -47,7 +49,8 @@ export default function Home({}: Props) {
         <IconButton title={"Alarm"} arrow>
           <AccessAlarmIcon />
         </IconButton>
-      </Stack>
+      </Stack> */}
+      <DynamicForm inputs={formInputs} onSubmit={() => alert()} />
     </Box>
   );
 }
