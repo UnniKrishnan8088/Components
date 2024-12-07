@@ -1,12 +1,10 @@
-import { Box, Stack } from "@mui/material";
-import Button from "../../components/Button";
-import IconButton from "../../components/IconButton";
-import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
-import HomeIcon from "@mui/icons-material/Home";
-import SendIcon from "@mui/icons-material/Send";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DynamicForm from "../../components/DynamicForm";
-import { formInputs } from "../../components/DynamicForm/formInputs";
+import {
+  FormValues,
+  formInputs,
+} from "../../components/DynamicForm/formInputs";
 
 type Props = {};
 
@@ -50,7 +48,10 @@ export default function Home({}: Props) {
           <AccessAlarmIcon />
         </IconButton>
       </Stack> */}
-      <DynamicForm inputs={formInputs} onSubmit={() => alert()} />
+      <DynamicForm<FormValues>
+        inputs={formInputs}
+        onSubmit={(data) => console.log(data)}
+      />
     </Box>
   );
 }

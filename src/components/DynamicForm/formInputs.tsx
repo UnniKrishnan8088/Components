@@ -1,11 +1,16 @@
 import { InputConfig } from ".";
 
-type FormValues = {
+export type FormValues = {
   isStudent: string;
   schoolName: string;
   hobbies: { hobby: string }[];
   password: string;
   confirmPassword: string;
+  radioField: any;
+  checkboxField: any;
+  reason: string;
+  email: string;
+  phone: number;
 };
 
 export const formInputs: InputConfig<FormValues>[] = [
@@ -18,14 +23,14 @@ export const formInputs: InputConfig<FormValues>[] = [
       { label: "No", value: "no" },
     ],
     rules: { required: "This field is required" },
-    width: 6,
+    gridProps: { xs: 12 },
   },
   {
     name: "schoolName",
     label: "School Name",
     type: "text",
     rules: { required: "School Name is required" },
-    width: 6,
+    gridProps: { xs: 6 },
     visibilityCondition: (data) => data.isStudent === "yes",
   },
   {
@@ -38,18 +43,44 @@ export const formInputs: InputConfig<FormValues>[] = [
         label: "Hobby Name",
         type: "text",
         rules: { required: "Hobby is required" },
-        width: 12,
+        gridProps: { xs: 6 },
+      },
+      {
+        name: "hobby",
+        label: "Hobby Name",
+        type: "text",
+        rules: { required: "Hobby is required" },
+        gridProps: { xs: 6 },
       },
     ],
     value: [{ hobby: "" }],
-    width: 12,
+    gridProps: { xs: 12 },
+  },
+  {
+    label: "User Details Group", // No `name` for the group
+    type: "group",
+    gridProps: { xs: 12 },
+    children: [
+      {
+        name: "email",
+        label: "Email Address",
+        type: "email",
+        gridProps: { xs: 12, sm: 6 },
+      },
+      {
+        name: "phone",
+        label: "Phone Number",
+        type: "phone",
+        gridProps: { xs: 12, sm: 6 },
+      },
+    ],
   },
   {
     name: "password",
     label: "Password",
     type: "text",
     rules: { required: "Password is required" },
-    width: 6,
+    gridProps: { xs: 6 },
   },
   {
     name: "confirmPassword",
@@ -57,9 +88,31 @@ export const formInputs: InputConfig<FormValues>[] = [
     type: "text",
     rules: {
       required: "Confirm Password is required",
-      validate: (value: string, formData: FormValues) =>
+      validate: (value, formData) =>
         value === formData.password || "Passwords do not match",
     },
-    width: 6,
+    gridProps: { xs: 6 },
+  },
+  {
+    name: "radioField",
+    label: "Choose an Option",
+    type: "radio",
+    options: [
+      { label: "Option 1", value: "1" },
+      { label: "Option 2", value: "2" },
+    ],
+  },
+  {
+    name: "checkboxField",
+    label: "Accept Terms",
+    type: "checkbox",
+    gridProps: { xs: 12 },
+  },
+  {
+    name: "reason",
+    label: "Reason",
+    type: "textarea",
+    visibilityCondition: (data) => data.checkboxField === true,
+    gridProps: { xs: 12 },
   },
 ];

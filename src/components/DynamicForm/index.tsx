@@ -1,30 +1,49 @@
 import {
   useForm,
-  Controller,
-  useFieldArray,
   FieldValues,
   RegisterOptions,
-} from 'react-hook-form';
-import {
-  TextField,
-  MenuItem,
-  Select,
-  Checkbox,
-  Grid,
-  Button,
-} from '@mui/material';
+  Path,
+  DefaultValues,
+} from "react-hook-form";
+import { Grid, Button } from "@mui/material";
+import FieldArrayInput from "./components/FieldArrayInput";
+import InputField from "./components/InputField";
+import { memo } from "react";
 
 // Define a generic InputConfig type
 export type InputConfig<T extends FieldValues> = {
-  name: keyof T; // Restrict to keys of the form's FieldValues
+  name?: Path<T>; // Restrict to keys of the form's FieldValues
   label: string;
-  type: 'text' | 'textarea' | 'dropdown' | 'multiselect' | 'fieldArray';
+  type:
+    | "text"
+    | "textarea"
+    | "dropdown"
+    | "multiselect"
+    | "fieldArray"
+    | "date"
+    | "checkbox"
+    | "radio"
+    | "group"
+    | "email"
+    | "number"
+    | "phone"; // Group type;
   options?: { label: string; value: string | number }[]; // For dropdown/multiselect
-  rules?: RegisterOptions; // React Hook Form validation rules
+  // rules?: RegisterOptions; // React Hook Form validation rules
+  rules?: Omit<
+    RegisterOptions<T, Path<T>>,
+    "disabled" | "setValueAs" | "valueAsNumber" | "valueAsDate"
+  >; // Match Controller's rules type
   value?: any;
-  width?: number;
   visibilityCondition?: (data: T) => boolean; // Conditional rendering logic
   subFields?: InputConfig<any>[]; // For nested inputs in field arrays
+  gridProps?: {
+    xs?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+  };
+  children?: InputConfig<T>[]; // Nested fields for group
 };
 
 // Generic Props for DynamicForm
@@ -37,55 +56,54 @@ const DynamicForm = <T extends FieldValues>({
   inputs,
   onSubmit,
 }: DynamicFormProps<T>) => {
-  const {
-    control,
-    handleSubmit,
-    getValues,
-    watch,
-    formState: { errors },
-  } = useForm<T>();
+  // Extract default values from inputs
+  const defaultValues = inputs.reduce((acc, input) => {
+    acc[input.name as keyof T] =
+      input.value || (input.type === "fieldArray" ? [{}] : "");
+    return acc;
+  }, {} as T);
+
+  const { control, handleSubmit, watch } = useForm<T>({
+    mode: "all",
+    defaultValues: defaultValues as DefaultValues<T>,
+  });
   const watchFields = watch();
 
-  const renderFieldArray = (input: InputConfig<T>) => {
-    if (input.type === 'fieldArray' && input.subFields) {
-      const { fields, append, remove } = useFieldArray({
-        control,
-        name: input?.name as string,
-      });
-
-      return (
-        <>
-          {fields.map((field, index) => (
-            <Grid container spacing={2} key={field.id}>
-              {input.subFields?.map((subField) => (
-                <Grid item xs={subField.width || 12} key={subField.name as string}>
-                  <Controller
-                    name={`${input?.name}[${index}].${subField?.name}` as keyof T}
-                    control={control}
-                    defaultValue={field[subField.name as keyof T] || ''}
-                    rules={subField.rules}
-                    render={({ field, fieldState }) => (
-                      <TextField
-                        {...field}
-                        fullWidth
-                        label={subField.label}
-                        variant="outlined"
-                        error={!!fieldState.error}
-                        helperText={fieldState.error?.message}
-                      />
-                    )}
-                  />
-                </Grid>
-              ))}
-              <Button onClick={() => remove(index)}>Remove</Button>
-            </Grid>
-          ))}
-          <Button onClick={() => append({})}>Add {input.label}</Button>
-        </>
-      );
-    }
-    return null;
-  };
+  // const getValidationRules = (input: InputConfig<T>) => {
+  //   let baseRules = input.rules || {};
+  //   switch (input.type) {
+  //     case "email":
+  //       baseRules = {
+  //         ...baseRules,
+  //         pattern: {
+  //           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  //           message: "Invalid email address",
+  //         },
+  //       };
+  //       break;
+  //     case "number":
+  //       baseRules = {
+  //         ...baseRules,
+  //         pattern: {
+  //           value: /^[+-]?([0-9]*[.])?[0-9]+$/,
+  //           message: "Invalid number",
+  //         },
+  //       };
+  //       break;
+  //     case "phone":
+  //       baseRules = {
+  //         ...baseRules,
+  //         pattern: {
+  //           value: /^\+?[1-9]\d{1,14}$/,
+  //           message: "Invalid phone number with country code",
+  //         },
+  //       };
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   return baseRules;
+  // };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,82 +115,61 @@ const DynamicForm = <T extends FieldValues>({
               input.visibilityCondition(watchFields)
           )
           .map((input) => (
-            <Grid item xs={input.width || 12} key={input.name as string}>
-              {input.type === 'fieldArray' ? (
-                renderFieldArray(input)
-              ) : (
-                <Controller
-                  name={input.name}
-                  control={control}
-                  defaultValue={input.value || ''}
-                  rules={input.rules}
-                  render={({ field, fieldState }) => {
-                    const errorMessage = fieldState.error?.message;
-
-                    switch (input.type) {
-                      case 'text':
-                      case 'textarea':
-                        return (
-                          <TextField
-                            {...field}
-                            fullWidth
-                            label={input.label}
-                            variant="outlined"
-                            multiline={input.type === 'textarea'}
-                            rows={input.type === 'textarea' ? 4 : 1}
-                            error={!!errorMessage}
-                            helperText={errorMessage}
+            <Grid item key={input.name as string} {...input.gridProps}>
+              {input.type === "group" ? (
+                <>
+                  {/* Render the group heading */}
+                  <h3>{input.label}</h3>
+                  <Grid container spacing={2}>
+                    {/* Render all child inputs */}
+                    {input.children?.map((childInput, childIndex) => (
+                      <Grid
+                        item
+                        key={
+                          childInput.name
+                            ? (childInput.name as string)
+                            : `child-${childIndex}`
+                        }
+                        {...childInput.gridProps}
+                      >
+                        {childInput.type === "fieldArray" ? (
+                          <FieldArrayInput
+                            control={control}
+                            name={childInput.name!} // `name` is required for child fields
+                            label={childInput.label}
+                            subFields={childInput?.subFields || []}
                           />
-                        );
-                      case 'dropdown':
-                        return (
-                          <TextField
-                            {...field}
-                            fullWidth
-                            label={input.label}
-                            variant="outlined"
-                            select
-                            error={!!errorMessage}
-                            helperText={errorMessage}
-                          >
-                            {input.options?.map((option) => (
-                              <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        );
-                      case 'multiselect':
-                        return (
-                          <Select
-                            {...field}
-                            fullWidth
-                            multiple
-                            variant="outlined"
-                            error={!!errorMessage}
-                            renderValue={(selected) =>
-                              Array.isArray(selected) && selected.length > 0
-                                ? selected.join(', ')
-                                : 'Select options'
-                            }
-                          >
-                            {input.options?.map((option) => (
-                              <MenuItem key={option.value} value={option.value}>
-                                <Checkbox
-                                  checked={
-                                    Array.isArray(field.value) &&
-                                    field.value.includes(option.value)
-                                  }
-                                />
-                                {option.label}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        );
-                      default:
-                        return null;
-                    }
-                  }}
+                        ) : (
+                          <InputField
+                            control={control}
+                            name={childInput.name!} // `name` is required for child fields
+                            label={childInput.label}
+                            type={childInput.type as any}
+                            options={childInput.options}
+                            // rules={getValidationRules(input)}
+                            rules={childInput.rules}
+                          />
+                        )}
+                      </Grid>
+                    ))}
+                  </Grid>
+                </>
+              ) : input.type === "fieldArray" ? (
+                <FieldArrayInput
+                  control={control}
+                  name={input.name as Path<T>}
+                  label={input.label}
+                  subFields={input?.subFields || []}
+                />
+              ) : (
+                <InputField
+                  control={control}
+                  name={input.name as Path<T>}
+                  label={input.label}
+                  type={input.type}
+                  options={input.options}
+                  // rules={getValidationRules(input)}
+                  rules={input?.rules}
                 />
               )}
             </Grid>
@@ -183,4 +180,4 @@ const DynamicForm = <T extends FieldValues>({
   );
 };
 
-export default DynamicForm;
+export default memo(DynamicForm);
