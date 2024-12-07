@@ -46,8 +46,6 @@ const InputField = <T extends FieldValues>({
     render={({ field, fieldState }) => {
       const errorMessage = fieldState.error?.message;
 
-      console.log(field.name, rules);
-
       switch (type) {
         case "text":
         case "textarea":
