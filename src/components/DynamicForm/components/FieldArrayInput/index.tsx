@@ -1,6 +1,13 @@
 import { memo } from "react";
 import { useFieldArray, Controller, Path, FieldValues } from "react-hook-form";
-import { Grid, TextField, Button } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+} from "@mui/material";
 import { InputConfig } from "../../types/dynamicForm.types";
 
 // import InputField, { InputFieldProps } from "./InputField";
@@ -48,15 +55,35 @@ const FieldArrayInput = <T extends FieldValues>({
                 defaultValue={(field as any)[subField.name] || ""}
                 rules={subField.rules}
                 render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
+                  <FormControl
                     fullWidth
-                    label={subField.label}
-                    variant="outlined"
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                    size="small"
-                  />
+                    error={Boolean(fieldState.error?.message)}
+                  >
+                    <FormLabel sx={{ flexDirection: "row" }}>
+                      {label}
+                      {subField?.rules?.required && (
+                        <FormHelperText
+                          sx={{ margin: 0, padding: 0 }}
+                          component={"span"}
+                          error
+                        >
+                          *
+                        </FormHelperText>
+                      )}
+                    </FormLabel>
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label={subField.label}
+                      variant="outlined"
+                      size="small"
+                    />
+                    {fieldState.error?.message && (
+                      <FormHelperText id="my-helper-text" error>
+                        {fieldState.error?.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 )}
               />
             </Grid>

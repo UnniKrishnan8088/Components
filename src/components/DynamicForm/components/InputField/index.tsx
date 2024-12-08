@@ -8,8 +8,11 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { Controller, Path, FieldValues } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export type InputFieldProps<T extends FieldValues> = {
   control: any;
@@ -44,6 +47,7 @@ const InputField = <T extends FieldValues>({
     rules={rules}
     render={({ field, fieldState }) => {
       const errorMessage = fieldState.error?.message;
+      let inputElement: React.ReactNode = null;
 
       switch (type) {
         case "text":
@@ -51,29 +55,24 @@ const InputField = <T extends FieldValues>({
         case "email":
         case "number":
         case "phone":
-          return (
+          inputElement = (
             <TextField
               {...field}
               fullWidth
-              label={label}
               variant="outlined"
               multiline={type === "textarea"}
               rows={type === "textarea" ? 4 : 1}
-              error={!!errorMessage}
-              helperText={errorMessage}
               size="small"
             />
-          ) as React.ReactElement;
+          );
+          break;
         case "dropdown":
-          return (
+          inputElement = (
             <TextField
               {...field}
               fullWidth
-              label={label}
               variant="outlined"
               select
-              error={!!errorMessage}
-              helperText={errorMessage}
               size="small"
             >
               {options?.map((option) => (
@@ -82,15 +81,15 @@ const InputField = <T extends FieldValues>({
                 </MenuItem>
               ))}
             </TextField>
-          ) as React.ReactElement;
+          );
+          break;
         case "multiselect":
-          return (
+          inputElement = (
             <Select
               {...field}
               fullWidth
               multiple
               variant="outlined"
-              error={!!errorMessage}
               renderValue={(selected) =>
                 Array.isArray(selected) && selected.length > 0
                   ? selected.join(", ")
@@ -110,47 +109,28 @@ const InputField = <T extends FieldValues>({
                 </MenuItem>
               ))}
             </Select>
-          ) as React.ReactElement;
-        // case "date":
-        //   return (
-        //     <DesktopDatePicker
-        //       {...field}
-        //       label={label}
-        //       inputFormat="MM/dd/yyyy"
-        //       renderInput={(params) => (
-        //         <TextField
-        //           {...params}
-        //           fullWidth
-        //           variant="outlined"
-        //           error={!!errorMessage}
-        //           helperText={errorMessage}
-        //           size="small"
-        //         />
-        //       )}
-        //     />
-        //   );
-
+          );
+          break;
+        case "date":
+          inputElement = (
+            <DatePicker value={field.value} onChange={field.onChange} />
+          );
+          break;
         case "checkbox":
-          return (
+          inputElement = (
             <FormControlLabel
-              control={
-                <Checkbox
-                  {...field}
-                  checked={!!field.value} // Ensure the value is treated as boolean
-                />
-              }
+              control={<Checkbox {...field} checked={!!field.value} />}
               label={label}
             />
           );
-
+          break;
         case "radio":
-          return (
+          inputElement = (
             <>
-              <FormLabel>{label}</FormLabel>
               <RadioGroup
                 {...field}
                 row
-                onChange={(e) => field.onChange(e.target.value)} // Map value to field.onChange
+                onChange={(e) => field.onChange(e.target.value)}
               >
                 {options?.map((option) => (
                   <FormControlLabel
@@ -163,9 +143,33 @@ const InputField = <T extends FieldValues>({
               </RadioGroup>
             </>
           );
+          break;
         default:
-          return null as unknown as React.ReactElement;
+          inputElement = null;
       }
+
+      return (
+        <FormControl fullWidth error={Boolean(errorMessage)}>
+          <FormLabel sx={{ flexDirection: "row" }}>
+            {label}
+            {rules?.required && (
+              <FormHelperText
+                sx={{ margin: 0, padding: 0 }}
+                component={"span"}
+                error
+              >
+                *
+              </FormHelperText>
+            )}
+          </FormLabel>
+          {inputElement}
+          {errorMessage && (
+            <FormHelperText id="my-helper-text" error>
+              {errorMessage}
+            </FormHelperText>
+          )}
+        </FormControl>
+      );
     }}
   />
 );

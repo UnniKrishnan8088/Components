@@ -108,6 +108,9 @@ export const formInputs: InputConfig<FormValues>[] = [
     label: "Accept Terms",
     type: "checkbox",
     gridProps: { xs: 12 },
+    rules: {
+      required: "This field is required",
+    },
   },
   {
     name: "reason",
