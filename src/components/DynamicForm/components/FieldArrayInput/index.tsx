@@ -10,13 +10,12 @@ import {
 } from "@mui/material";
 import { InputConfig } from "../../types/dynamicForm.types";
 
-// import InputField, { InputFieldProps } from "./InputField";
-
 type FieldArrayInputProps<T extends FieldValues> = {
   control: any;
   name: Path<T>;
   label: string;
   subFields: InputConfig<T>[];
+  placeholder?: string;
 };
 
 const FieldArrayInput = <T extends FieldValues>({
@@ -24,6 +23,7 @@ const FieldArrayInput = <T extends FieldValues>({
   name,
   label,
   subFields,
+  placeholder,
 }: FieldArrayInputProps<T>) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -74,9 +74,9 @@ const FieldArrayInput = <T extends FieldValues>({
                     <TextField
                       {...field}
                       fullWidth
-                      label={subField.label}
                       variant="outlined"
                       size="small"
+                      placeholder={placeholder}
                     />
                     {fieldState.error?.message && (
                       <FormHelperText id="my-helper-text" error>

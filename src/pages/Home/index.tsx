@@ -1,15 +1,27 @@
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DynamicForm from "../../components/DynamicForm";
-import {
-  FormValues,
-  formInputs,
-} from "../../components/DynamicForm/formInputs";
+import { formInputs } from "../../components/DynamicForm/formInputs";
+import SearchableSelect from "../../components/SearchableSelect";
+import React from "react";
 
 type Props = {};
 
+const options = [
+  { label: "Option 1", value: 1 },
+  { label: "Option 2", value: 2 },
+  { label: "Option 3", value: 3 },
+  { label: "Option 4", value: 4 },
+  { label: "Option 5", value: 5 },
+];
+
 export default function Home({}: Props) {
   const navigate = useNavigate();
+  const [selectedValue, setSelectedValue] = React.useState<any | null>(null); // State for the selected value
+
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: any | null) => {
+    setSelectedValue(newValue); // Update the state with the selected value
+  };
   return (
     <Box>
       {/* <Stack direction={"row"} gap={1}>
@@ -48,9 +60,15 @@ export default function Home({}: Props) {
           <AccessAlarmIcon />
         </IconButton>
       </Stack> */}
-      <DynamicForm<FormValues>
-        inputs={formInputs}
+      <DynamicForm
+        inputs={formInputs as any}
         onSubmit={(data) => console.log(data)}
+      />
+
+      <SearchableSelect
+        onChange={handleChange}
+        value={selectedValue}
+        options={options}
       />
     </Box>
   );

@@ -12,7 +12,18 @@ export type FormValues = {
   email: string;
   phone: number;
   primary_email: string;
+  school: { label: string; value: number };
 };
+
+const schoolNames = [
+  { label: "Greenwood High School", value: 1 },
+  { label: "Riverside Academy", value: 2 },
+  { label: "Maple Leaf International School", value: 3 },
+  { label: "Sunrise High School", value: 4 },
+  { label: "Pinewood School", value: 5 },
+  { label: "Blue Ridge Academy", value: 6 },
+  { label: "Oak Valley High", value: 7 },
+];
 
 export const formInputs: InputConfig<FormValues>[] = [
   {
@@ -33,6 +44,7 @@ export const formInputs: InputConfig<FormValues>[] = [
     rules: { required: "School Name is required" },
     gridProps: { xs: 6 },
     visibilityCondition: (data) => data.isStudent === "yes",
+    placeholder: "Enter school name",
   },
   {
     name: "hobbies",
@@ -124,5 +136,13 @@ export const formInputs: InputConfig<FormValues>[] = [
     label: "Primary Email Address",
     type: "email",
     gridProps: { xs: 12, sm: 6 },
+  },
+  {
+    label: "Schools",
+    type: "dropdownsearch",
+    name: "school",
+    options: schoolNames,
+    gridProps: { xs: 6 },
+    placeholder:"Select school"
   },
 ];

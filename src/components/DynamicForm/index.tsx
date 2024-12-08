@@ -1,9 +1,4 @@
-import {
-  useForm,
-  FieldValues,
-  Path,
-  DefaultValues,
-} from "react-hook-form";
+import { useForm, FieldValues, Path, DefaultValues } from "react-hook-form";
 import { Grid, Button } from "@mui/material";
 import FieldArrayInput from "./components/FieldArrayInput";
 import InputField from "./components/InputField";
@@ -21,7 +16,6 @@ const DynamicForm = <T extends FieldValues>({
   inputs,
   onSubmit,
 }: DynamicFormProps<T>) => {
-
   // Extract default values from inputs
   const defaultValues = inputs.reduce((acc, input) => {
     acc[input.name as keyof T] =
@@ -34,8 +28,6 @@ const DynamicForm = <T extends FieldValues>({
     defaultValues: defaultValues as DefaultValues<T>,
   });
   const watchFields = watch();
-
-
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -100,6 +92,7 @@ const DynamicForm = <T extends FieldValues>({
                   type={input.type}
                   options={input.options}
                   rules={getValidationRules(input)}
+                  placeholder={input?.placeholder}
                 />
               )}
             </Grid>

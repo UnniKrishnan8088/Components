@@ -13,24 +13,17 @@ import {
 } from "@mui/material";
 import { Controller, Path, FieldValues } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { CommonTypes } from "../../types/dynamicForm.types";
+import SearchableSelect from "../../../SearchableSelect";
 
 export type InputFieldProps<T extends FieldValues> = {
   control: any;
   name: Path<T>;
   label: string;
-  type:
-    | "text"
-    | "textarea"
-    | "dropdown"
-    | "multiselect"
-    | "date"
-    | "checkbox"
-    | "radio"
-    | "email"
-    | "number"
-    | "phone";
-  options?: { label: string; value: string | number }[];
+  type: CommonTypes;
+  options?: { label: string; value: any }[];
   rules?: any;
+  placeholder?: string;
 };
 
 const InputField = <T extends FieldValues>({
@@ -40,6 +33,7 @@ const InputField = <T extends FieldValues>({
   type,
   options,
   rules,
+  placeholder,
 }: InputFieldProps<T>) => (
   <Controller
     name={name}
@@ -63,6 +57,7 @@ const InputField = <T extends FieldValues>({
               multiline={type === "textarea"}
               rows={type === "textarea" ? 4 : 1}
               size="small"
+              placeholder={placeholder}
             />
           );
           break;
@@ -74,6 +69,7 @@ const InputField = <T extends FieldValues>({
               variant="outlined"
               select
               size="small"
+              placeholder={placeholder}
             >
               {options?.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -81,6 +77,16 @@ const InputField = <T extends FieldValues>({
                 </MenuItem>
               ))}
             </TextField>
+          );
+          break;
+        case "dropdownsearch":
+          inputElement = (
+            <SearchableSelect
+              onChange={(_, value) => field.onChange(value)}
+              value={field?.value}
+              options={options ?? []}
+              placeholder={placeholder}
+            />
           );
           break;
         case "multiselect":

@@ -1,23 +1,27 @@
 import { FieldValues, Path, RegisterOptions } from "react-hook-form";
 
+export type CommonTypes =
+  | "text"
+  | "textarea"
+  | "dropdown"
+  | "multiselect"
+  | "date"
+  | "checkbox"
+  | "radio"
+  | "email"
+  | "number"
+  | "phone"
+  | "dropdownsearch";
+
+export type formTypes = "fieldArray" | "group";
+
 // Define a generic InputConfig type
 export type InputConfig<T extends FieldValues> = {
   name?: Path<T>; // Restrict to keys of the form's FieldValues
   label: string;
-  type:
-    | "text"
-    | "textarea"
-    | "dropdown"
-    | "multiselect"
-    | "fieldArray"
-    | "date"
-    | "checkbox"
-    | "radio"
-    | "group"
-    | "email"
-    | "number"
-    | "phone"; // Group type;
-  options?: { label: string; value: string | number }[]; // For dropdown/multiselect
+  type: CommonTypes | formTypes; // Group type;
+  placeholder?: string;
+  options?: { label: string; value: any }[]; // For dropdown/multiselect
   // rules?: RegisterOptions; // React Hook Form validation rules
   rules?: Omit<
     RegisterOptions<T, Path<T>>,
