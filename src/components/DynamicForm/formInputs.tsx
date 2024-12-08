@@ -1,4 +1,4 @@
-import { InputConfig } from ".";
+import { InputConfig } from "./types/dynamicForm.types";
 
 export type FormValues = {
   isStudent: string;
@@ -11,6 +11,7 @@ export type FormValues = {
   reason: string;
   email: string;
   phone: number;
+  primary_email: string;
 };
 
 export const formInputs: InputConfig<FormValues>[] = [
@@ -114,5 +115,11 @@ export const formInputs: InputConfig<FormValues>[] = [
     type: "textarea",
     visibilityCondition: (data) => data.checkboxField === true,
     gridProps: { xs: 12 },
+  },
+  {
+    name: "primary_email",
+    label: "Primary Email Address",
+    type: "email",
+    gridProps: { xs: 12, sm: 6 },
   },
 ];

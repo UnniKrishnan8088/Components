@@ -28,7 +28,6 @@ export type InputFieldProps<T extends FieldValues> = {
     | "phone";
   options?: { label: string; value: string | number }[];
   rules?: any;
-  width?: any;
 };
 
 const InputField = <T extends FieldValues>({

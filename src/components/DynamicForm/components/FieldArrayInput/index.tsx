@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useFieldArray, Controller, Path, FieldValues } from "react-hook-form";
 import { Grid, TextField, Button } from "@mui/material";
-import { InputConfig } from "../..";
+import { InputConfig } from "../../types/dynamicForm.types";
 
 // import InputField, { InputFieldProps } from "./InputField";
 
